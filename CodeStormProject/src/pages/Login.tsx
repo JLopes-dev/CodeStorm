@@ -1,67 +1,51 @@
 import React, { useState } from "react"; 
-import { StyleSheet, Dimensions, Text } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
 import ButtonLogin from "../components/ButtonLogin";
 import { CommonActions } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native'
-import { Input, NativeBaseProvider, Box, Icon, FormControl } from "native-base";
-import { MaterialIcons } from "@expo/vector-icons";
+import { NativeBaseProvider, Box,} from "native-base";
 import axios from "axios";
+import InputsLogin from "../components/InputLogin";
+import TituloDoProduto from "../components/TituloDoProduto";
 
 export default function Login() {
     const [user, setUser] = useState("")
     const [passWord, setPassWord] = useState("")
     const navigation = useNavigation();
-
     
     function Submit() {
-        /*
-        if(passWord.length < 8) {
-            console.warn("Digite 8 Caracteres");
-            return;
-        }
+
         navigation.dispatch(
             CommonActions.reset({
                 index: 0,
                 routes: [{name: 'Home'}]
             })
-        )*/
+        )
+
         axios.post('https://localhost:4516/api/post', (data: object) => {
 
         }).then((data) => JSON.stringify(data))
-          .catch((err) => console.warn(err))
+        .catch((err) => console.warn(err))
     } 
     
-
-    function handleUser(e: string) {
+    const handleUser = (e: string) => {
         setUser(e)
     }
-    function PassWord(e: string) {
+    const handlePassWord = (e: string) => {
         setPassWord(e)
     }
+    
     return(
         <NativeBaseProvider>
         <Box style={styles.container}>
-            <Box style={styles.tituloContainer}>
-                <Text style={styles.titulo}>CodeStorm</Text>
-            </Box>
+            <TituloDoProduto />
             <Box style={styles.form}>
-                <Box style={styles.inputsContainer}>
-                    
-                    <Input
-                    value={user} 
-                    onChangeText={handleUser} 
-                    style={styles.inputs} 
-                    InputLeftElement={
-                        <Icon as={<MaterialIcons name="person" />} size={7} ml="2" color="muted.400" marginRight='2%' />}
-                    />
-                    <Input
-                    value={passWord}
-                    onChangeText={PassWord}
-                    InputLeftElement={
-                        <Icon as={<MaterialIcons name="lock" />} size={7} ml="2" color="muted.400" marginRight='2%' />}
-                    style={styles.inputs}
-                   secureTextEntry={true}/>
-                </Box>
+                <InputsLogin 
+                HandleUser={handleUser(user)}
+                PassWord={handlePassWord(passWord)}
+                User={user}
+                passWord={passWord}/>
+                
                 <ButtonLogin loading={false} onClick={Submit}/>
             </Box>
         </Box>
@@ -75,39 +59,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#16292E'
     },
-    tituloContainer: {
-       height: '10%',
-       width: '100%',
-       justifyContent: 'center',
-       alignItems: 'center'
-    },
-    titulo: {
-        fontSize: 30,
-        color: 'white',
-        fontWeight: 'bold',
-
-    },
     form: {
         height: Dimensions.get('window').height / 2.5,
         width: '70%',
         borderRadius: 5,
         gap: 40
     },
-    inputsContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: '5%',
-        height: '60%',
-        width: '100%',
-        gap: 50
-    },
-    inputs: {
-        width: '70%',
-        height: '100%',
-        fontSize: 20,
-        textAlign: 'center',
-        backgroundColor: '#42707A',
-        borderRadius: 5,
-        color: 'white'
-    }
 })
