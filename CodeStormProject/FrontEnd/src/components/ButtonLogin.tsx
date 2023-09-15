@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
 container: {
     width: '100%',
     height: '15%',
+    marginTop: 20,
     alignItems: 'center'
 },
 button: {
@@ -33,8 +34,6 @@ button: {
     height: '100%',
 },
 textButton: {
-    height: '100%',
-    fontSize: 50,
     fontWeight: 'bold',
     }
 })

@@ -9,10 +9,9 @@ import InputsLogin from "../components/InputLogin";
 import TituloDoProduto from "../components/TituloDoProduto";
 
 export default function Login() {
-    const [user, setUser] = useState("")
-    const [passWord, setPassWord] = useState("")
+    const [user, setUser] = useState(" ")
+    const [passWord, setPassWord] = useState(" ")
     const navigation = useNavigation();
-    
     function Submit() {
 
         navigation.dispatch(
@@ -33,19 +32,24 @@ export default function Login() {
     }
     const handlePassWord = (e: string) => {
         setPassWord(e)
-    }
-    
+}
     return(
         <NativeBaseProvider>
         <Box style={styles.container}>
             <TituloDoProduto />
             <Box style={styles.form}>
                 <InputsLogin 
-                HandleUser={handleUser(user)}
-                PassWord={handlePassWord(passWord)}
-                User={user}
-                passWord={passWord}/>
+                 icon="person"
+                 valor={user}
+                 placeHolder="Usuário"
+                 onChangeText={(e) => setUser(e)}/>
                 
+                <InputsLogin
+                icon="lock"
+                valor={passWord}
+                placeHolder="Senha"
+                onChangeText={(e) => setPassWord(e)}
+                />
                 <ButtonLogin loading={false} onClick={Submit}/>
             </Box>
         </Box>
@@ -57,7 +61,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#16292E'
+        backgroundColor: '#16292E',
+        gap: 20
     },
     form: {
         height: Dimensions.get('window').height / 2.5,

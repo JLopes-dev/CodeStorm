@@ -6,10 +6,8 @@ import { NavigationContainer } from "@react-navigation/native";
 export default function App(){
   // Login == false(renderiza Login)
   // Login ==  true(renderiza Home)
-  let login = false
+  let login
   if(!login) {
-
-    
     return(
       <SafeAreaView style={{flex: 1}}>
         <NavigationContainer>
