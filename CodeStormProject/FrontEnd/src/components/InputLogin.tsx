@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native'
 import { Box, Icon, Input } from 'native-base';
 import { MaterialIcons } from "@expo/vector-icons";
 type PropsComponents = {
-    valor: string;
     onChangeText: React.Dispatch<React.SetStateAction<string>>
     icon: 'person' | 'lock'
     placeHolder: string
@@ -15,7 +14,6 @@ const InputsLogin = (props: PropsComponents) => {
         <Box style={styles.inputsContainer}>  
             <Input
             onChangeText={(e) => props.onChangeText(e)}
-            value={props.valor} 
             placeholder={props.placeHolder}
             placeholderTextColor='white'
             style={styles.inputs} 

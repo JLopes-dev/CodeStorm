@@ -29,6 +29,8 @@ class HttpReqs {
       const {name, password}: RequestBody = req.body
       const user = await apiCrud.delete({name, password})
       this.jsonResponse(res, user, `user not found \n value: ${user}`, 200, 404)
+      console.log('oi');
+      
     }
 
     public postHandler = async (req: any,res: any)=> {
