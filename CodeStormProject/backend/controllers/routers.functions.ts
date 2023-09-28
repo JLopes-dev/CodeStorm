@@ -14,7 +14,7 @@ interface RequestBodyforUpdate extends RequestBody {
   type userType =  Document | null | undefined
 
 
-class HttpReqs {
+export default class HttpReqs {
     private jsonResponse(res: any, user: userType, message: string, httpOK: number, httpError: number) {
       res.status(user ? httpOK : httpError).json({message: user ?? message}) 
     }
@@ -45,12 +45,3 @@ class HttpReqs {
       this.jsonResponse(res,user, `user doesn't exists ${user}`, 200, 404)
     }
 }
-
-export class ApiMiddlewares {
-    public verifyAccount(){
-
-    }
-}
-
-
-export default HttpReqs
