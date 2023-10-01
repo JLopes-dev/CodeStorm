@@ -1,4 +1,4 @@
-import Crud from './routers.crud'
+import Crud from './routersCrud'
 const apiCrud = new Crud()
 
 interface RequestBody {

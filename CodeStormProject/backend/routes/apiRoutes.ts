@@ -1,5 +1,5 @@
 import express, { Express } from "express";
-import httpReqs from "../controllers/routers.functions";
+import httpReqs from "../controllers/routersFunctions";
 import cors from "cors";
 
 const Router = express.Router();

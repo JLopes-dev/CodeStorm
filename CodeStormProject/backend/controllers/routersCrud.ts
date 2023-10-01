@@ -1,4 +1,4 @@
-import userModel from '../models/db/db.models'
+import userModel from '../models/dbModels'
 
 interface acc {
     name: string,
