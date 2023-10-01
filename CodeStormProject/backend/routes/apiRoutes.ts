@@ -4,7 +4,7 @@ import cors from "cors";
 
 const Router = express.Router();
 
-export default class router {
+export default class RouterClass {
   private app: Express;
 
   constructor(app: Express) {
