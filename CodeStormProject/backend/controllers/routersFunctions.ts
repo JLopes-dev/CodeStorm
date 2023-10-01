@@ -43,9 +43,7 @@ export default class HttpRequisitions {
   }
 
   public async getHandler(req: any, res: any) {    
-    const user = await crud.read(req.body);
-    console.log(user);
-    
+    const user = await crud.read(req.body);    
     res.status(user ? 200 : 404).json({ message: user ?? `user not found \n value: ${user}` });
   }
 

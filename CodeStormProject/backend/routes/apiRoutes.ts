@@ -36,6 +36,11 @@ export default class router {
   start(PORT: number) {
     this.configRoutes();
     this.setupRoutes();
-    this.app.listen(PORT, () => console.log(`server loading on PORT ${PORT}`));
+    return this.app.listen(PORT, () => console.log(`server loading on PORT ${PORT}`));
+    
   }
+
+
+
+
 }
