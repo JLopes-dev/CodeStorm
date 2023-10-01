@@ -16,12 +16,13 @@ export default function Login() {
   const [user, setUser] = useState("");
 
   const submit = async () => {
-    const postData = await axios.post(`http://10.0.0.109:4516/api/post`, {
-      name,
-      password,
-    });
+const postData = await fetch(`http://10.0.0.109:3001/api/login`, {
+  method: 'POST', 
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ name, password})});
     await AsyncStorage.setItem("account", password);
-
+    console.warn(await postData.json());
+    
     if (postData) {
       navigation.dispatch(
         CommonActions.reset({
@@ -37,17 +38,8 @@ export default function Login() {
       <Box style={styles.container}>
         <TituloDoProduto />
         <Box style={styles.form}>
-          <InputsLogin
-            icon="person"
-            placeHolder="Usuário"
-            onChangeText={(value) => setName(value as string)}
-          />
-          <InputsLogin
-            icon="lock"
-            placeHolder="Senha"
-            onChangeText={(value) => setPassword(value as string)}
-          />
-          <Text>{user}</Text>
+          <InputsLogin icon="person" placeHolder="Usuário" onChangeText={(value) => setName(value as string)} />
+          <InputsLogin icon="lock" placeHolder="Senha" onChangeText={(value) => setPassword(value as string)} />
           <ButtonLogin loading={false} onClick={submit} />
         </Box>
       </Box>
