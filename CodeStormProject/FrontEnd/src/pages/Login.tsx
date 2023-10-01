@@ -20,9 +20,13 @@ const postData = await fetch(`http://10.0.0.109:3001/api/login`, {
   method: 'POST', 
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({ name, password})});
-    await AsyncStorage.setItem("account", password);
-    console.warn(await postData.json());
+
+
+    const foundUser = await postData.json()
+    console.warn(foundUser);
     
+    if(foundUser.message !== "user not found \n value: null"){
+    await AsyncStorage.setItem("account", password);
     if (postData) {
       navigation.dispatch(
         CommonActions.reset({
@@ -31,6 +35,7 @@ const postData = await fetch(`http://10.0.0.109:3001/api/login`, {
         })
       );
     }
+  }
   };
 
   return (

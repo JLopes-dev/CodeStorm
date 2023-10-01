@@ -42,18 +42,18 @@ export default class HttpRequisitions {
     };
   }
 
-  public async getHandler(req: any, res: any) {    
-    const user = await crud.read(req.body);    
+  public async getHandler(req: any, res: any) { 
+    const user = await crud.read({ name: req.body.name.trim(), password: req.body.password.trim() }); 
     res.status(user ? 200 : 404).json({ message: user ?? `user not found \n value: ${user}` });
   }
 
   public async deleteHandler(req: any, res: any) {
-    const user = await crud.delete(req.body);
+    const user = await crud.delete({ name: req.body.name.trim(), password: req.body.password.trim() });
     res.status(user ? 200 : 404).json({ message: user ?? `user not found \n value: ${user}` });
   }
 
   public async postHandler(req: any, res: any) {
-    const user = await crud.post(req.body);
+    const user = await crud.post({ name: req.body.name.trim(), password: req.body.password.trim() });
     res.status(user ? 200 : 406).json({ message: user ?? `user wasnt accepted \n value: ${user}.` });
   }
 
