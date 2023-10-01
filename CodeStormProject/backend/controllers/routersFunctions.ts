@@ -1,47 +1,67 @@
-import Crud from './routersCrud'
-const apiCrud = new Crud()
+import userModel from "../models/dbModels";
 
-interface RequestBody {
-    name: string;
-    password: string;
+interface accountModel {
+  name: string;
+  password: string;
+}
+
+class Crud {
+  public async read(user: accountModel) {
+    return (await userModel.findOne(user)) as unknown as Document;
   }
 
-interface RequestBodyforUpdate extends RequestBody {
-    oldName: string,
-    oldPassword: string
+  public async put(user: accountModel, newUser: accountModel) {
+    return await userModel.findOneAndUpdate(user, newUser, {
+      returnDocument: "after",
+    });
   }
 
-  type userType =  Document | null | undefined
+  public async delete(user: accountModel) {
+    return await userModel.findOneAndDelete(user);
+  }
 
+  public async post(user: accountModel) {
+    const verifyifExists = await this.read(user);
+    if (!verifyifExists) return null;
+    return await userModel.create(user);
+  }
+}
 
-export default class HttpReqs {
-    private jsonResponse(res: any, user: userType, message: string, httpOK: number, httpError: number) {
-      res.status(user ? httpOK : httpError).json({message: user ?? message}) 
-    }
+const crud = new Crud();
+type httpType = (req: any, res: any) => Promise<void>;
 
-    public getHandler = async (req: any,res: any)=> {
-      const {name}: RequestBody = req.params
-      const user = await apiCrud.read(name)
-      this.jsonResponse(res, user, `user not found \n value: ${user}`, 200, 404)
-    }
+export default class HttpRequisitions {
 
-    public deleteHandler = async (req: any,res: any)=> {
-      const {name, password}: RequestBody = req.body
-      const user = await apiCrud.delete({name, password})
-      this.jsonResponse(res, user, `user not found \n value: ${user}`, 200, 404)
-      console.log('oi');
-      
-    }
+  public withHandlingErrors(handler: httpType) {
+    return async (req: any, res: any) => {
+      try {
+        handler(req, res);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  }
 
-    public postHandler = async (req: any,res: any)=> {
-      const {name, password}: RequestBody = req.body 
-      const user = await apiCrud.post({ name, password }) as Document
-      this.jsonResponse(res, user, `user wasnt accepted \n value: ${user}.`, 200, 406)
-    }
+  public async getHandler(req: any, res: any) {    
+    const user = await crud.read(req.body);
+    console.log(user);
+    
+    res.status(user ? 200 : 404).json({ message: user ?? `user not found \n value: ${user}` });
+  }
 
-    public putHandler = async (req: any,res: any)=> {
-      const {oldName, oldPassword, name, password}: RequestBodyforUpdate = req.body
-      const user = await apiCrud.put({oldName, oldPassword, name, password});
-      this.jsonResponse(res,user, `user doesn't exists ${user}`, 200, 404)
-    }
+  public async deleteHandler(req: any, res: any) {
+    const user = await crud.delete(req.body);
+    res.status(user ? 200 : 404).json({ message: user ?? `user not found \n value: ${user}` });
+  }
+
+  public async postHandler(req: any, res: any) {
+    const user = await crud.post(req.body);
+    res.status(user ? 200 : 406).json({ message: user ?? `user wasnt accepted \n value: ${user}.` });
+  }
+
+  public async putHandler(req: any, res: any) {
+    const { oldName, oldPassword, name, password } = req.body;
+    const user = await crud.put({ name: oldName, password: oldPassword }, { name, password });
+    res.status(user ? 200 : 404).json({ message: user ?? `user doesn't exists ${user}` });
+  }
 }

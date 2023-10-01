@@ -1,9 +1,8 @@
 import express, { Express } from "express";
-import httpReqs from "../controllers/routersFunctions";
+import HttpRequisitions from "../controllers/routersFunctions";
 import cors from "cors";
 
 const Router = express.Router();
-const crud = new httpReqs();
 
 export default class router {
   private app: Express;
@@ -11,6 +10,7 @@ export default class router {
   constructor(app: Express) {
     this.app = app;
   }
+
   configRoutes() {
     this.app.use(express.json());
 
@@ -22,17 +22,20 @@ export default class router {
     );
   }
   
-  routes() {
-    Router.post("/api/login", crud.getHandler);
-    Router.post("/api/signin", crud.postHandler);
-    Router.delete("/api/delete", crud.deleteHandler);
-    Router.put("/api/put", crud.putHandler);
+  setupRoutes() {
+    const http = new HttpRequisitions();
+
+    Router.post("/api/login", http.withHandlingErrors(http.getHandler));
+    Router.post("/api/signin", http.withHandlingErrors(http.postHandler));
+    Router.delete("/api/delete",http.withHandlingErrors(http.deleteHandler));
+    Router.put("/api/put", http.withHandlingErrors(http.putHandler));
+    Router.use((req,res)=>res.status(404).json({message: `route not found ${404}`}))
     this.app.use(Router);
   }
 
   start(PORT: number) {
-    this.configRoutes()
-    this.routes();
+    this.configRoutes();
+    this.setupRoutes();
     this.app.listen(PORT, () => console.log(`server loading on PORT ${PORT}`));
   }
 }
