@@ -23,8 +23,8 @@ export default class router {
   }
   
   routes() {
-    Router.get("/api/:name", crud.getHandler);
-    Router.post("/api/post", crud.postHandler);
+    Router.post("/api/login", crud.getHandler);
+    Router.post("/api/signin", crud.postHandler);
     Router.delete("/api/delete", crud.deleteHandler);
     Router.put("/api/put", crud.putHandler);
     this.app.use(Router);
