@@ -8,8 +8,12 @@ const app = express()
 const PORT =  process.env.PORT ?? 3000
 const routerHandler = new routerClass(app);
 
+const user = process.env.user as string 
+const password = process.env.password as string; 
 
 (async ()=>{
-  await run();
+  await run(user, password)
+   .then(()=>{
   routerHandler.start(PORT as number);
+   })
 })()

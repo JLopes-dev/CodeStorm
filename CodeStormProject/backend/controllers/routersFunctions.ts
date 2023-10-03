@@ -22,7 +22,7 @@ class Crud {
 
   public async post(user: accountModel) {
     const verifyifExists = await this.read(user);
-    if (!verifyifExists) return null;
+    if (verifyifExists) return null;
     return await userModel.create(user);
   }
 }
