@@ -1,7 +1,9 @@
 {
   "scripts": {
     "dev": "tsnd --env-file ./config/.env.dev index.ts",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "dev-linux": "NODE_ENV=dev ts-node index.ts",
+    "dev-windows": "set NODE_ENV=dev && ts-node index.ts"
   },
   "devDependencies": {
     "@types/cors": "^2.8.15",
@@ -10,8 +12,16 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
     "http": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
     "ts-node-dev": "^2.0.0"
-  }
+  },
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
