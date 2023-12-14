@@ -1,19 +1,14 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import run from './models/dbConn'
-import routerClass from './routes/apiRoutes'
+import { connect } from "mongoose";
+import DatabaseInput from "./core/database";
+import RouterInput from "./routes/router";
+import express from "express";
+const runDatabase = new DatabaseInput(connect);
 
-dotenv.config()
-const app = express()
-const PORT =  process.env.PORT ?? 3000
-const routerHandler = new routerClass(app);
 
-const user = process.env.user as string 
-const password = process.env.password as string; 
+const app = express();
+const httpServer = new RouterInput(app);
+const port = parseInt(process.env.PORT!) || 3000;
 
-(async ()=>{
-  await run(user, password)
-   .then(()=>{
-  routerHandler.start(PORT as number);
-   })
-})()
+runDatabase.runDB(process.env.DB_URI!).then(() => {
+  httpServer.runServer(port);
+});

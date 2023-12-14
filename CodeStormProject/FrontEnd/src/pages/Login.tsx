@@ -5,7 +5,6 @@ import { CommonActions, useNavigation } from "@react-navigation/native";
 import { NativeBaseProvider, Box } from "native-base";
 import InputsLogin from "../components/InputLogin";
 import TituloDoProduto from "../components/TituloDoProduto";
-import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login() {
@@ -16,10 +15,11 @@ export default function Login() {
   const [user, setUser] = useState("");
 
   const submit = async () => {
-const postData = await fetch(`http://10.0.0.109:3001/api/login`, {
+const postData = await fetch(`http://10.0.0.109:3001/login`, {
   method: 'POST', 
   headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ name, password})});
+  body: JSON.stringify({name, password})
+ });
 
 
     const foundUser = await postData.json()

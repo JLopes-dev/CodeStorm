@@ -18,7 +18,6 @@ export default function Home() {
         <NativeBaseProvider>
             <Box style={styles.container}>
               <Button onPress={signout} title='deslogar'/>
-             <Text>oi</Text>
             </Box>
         </NativeBaseProvider>
     )
